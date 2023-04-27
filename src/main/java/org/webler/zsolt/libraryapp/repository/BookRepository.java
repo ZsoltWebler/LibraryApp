@@ -30,4 +30,7 @@ public class BookRepository {
         return bookContainer;
     }
 
+    public void deleteBook(Book book) {
+        bookContainer.remove(book);
+    }
 }

@@ -24,13 +24,24 @@ public class LibrarianService {
     }
 
     public boolean addBook(Book book) {
+        createAuthor(book);
+
+        return bookRepository.addBook(book);
+    }
+
+    private void createAuthor(Book book) {
         Author author = book.getAuthor();
         if (author != null) {
 
             if (author.getId() != null && author.getName() != null) {
 
 
-                if (authorRepository.getAuthorById(author.getId()).isPresent()) {
+                Optional<Author> authorById = authorRepository.getAuthorById(author.getId());
+                if (authorById.isPresent()) {
+
+                    List<Book> publishedBooks = authorById.get().getPublishedBooks();
+                    publishedBooks.add(book);
+                    authorById.get().setPublishedBooks(publishedBooks);
 
 
                 } else {
@@ -40,14 +51,12 @@ public class LibrarianService {
             } else {
                 Author newAuthor = new Author();
                 newAuthor.setName(author.getName());
+                newAuthor.setPublishedBooks(new ArrayList<>(List.of(book)));
                 authorRepository.addAuthor(newAuthor);
                 book.setAuthor(newAuthor);
-
             }
 
         }
-
-        return bookRepository.addBook(book);
     }
 
     public boolean addAuthor(Author author) {
@@ -73,5 +82,27 @@ public class LibrarianService {
     public void deleteAuthorById(Long id) {
         Author author = authorRepository.getAuthorById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         authorRepository.deleteAuthor(author);
+    }
+
+    public Author updateById(Long id, Author newAuthor) {
+        Author author = authorRepository.getAuthorById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        author.setName(newAuthor.getName());
+        author.setPublishedBooks(newAuthor.getPublishedBooks());
+        return author;
+    }
+
+    public Book updateBookByid(Long id, Book newBook) {
+        Book book = bookRepository.getBookById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        book.setIsbn(newBook.getIsbn());
+        book.setTitle(newBook.getTitle());
+        book.setGenre(newBook.getGenre());
+        createAuthor(book);
+        book.setAvailable(newBook.isAvailable());
+        return book;
+    }
+
+    public void deleteBookById(Long id) {
+        Book book = bookRepository.getBookById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        bookRepository.deleteBook(book);
     }
 }
