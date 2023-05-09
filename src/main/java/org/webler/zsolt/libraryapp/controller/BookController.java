@@ -16,48 +16,4 @@ import java.util.Optional;
 @RequestMapping("/book")
 public class BookController {
 
-    @Autowired
-    LibrarianService service;
-
-    @GetMapping
-    public List<Book> getBook() {
-        return service.getBooks();
-    }
-
-    @GetMapping("/{id}")
-    public Book getBookById(@PathVariable Long id) {
-
-        Book book = new Book();
-        book.setTitle("ASD");
-        book.setAvailable(false);
-        book.setIsbn("12313123");
-        book.setGenre("fantasy");
-        book.setAuthor(new Author(1l,"Name",new ArrayList<Book>()));
-
-        Optional<Book> bookById = service.getBookById(id);
-        if (bookById.isPresent()) {
-            //return bookById.get();
-
-        }
-        return book;
-        //throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Book addBook(@RequestBody Book book) {
-        service.addBook(book);
-        return book;
-    }
-
-    @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
-        return service.updateBookByid(id, book);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteBookById(@PathVariable Long id) {
-        service.deleteBookById(id);
-    }
-
 }

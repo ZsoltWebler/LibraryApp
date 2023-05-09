@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public class LibrarianService {
-
+/*
     AuthorRepository authorRepository;
     BookRepository bookRepository;
 
@@ -105,4 +105,6 @@ public class LibrarianService {
         Book book = bookRepository.getBookById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         bookRepository.deleteBook(book);
     }
+    */
+
 }

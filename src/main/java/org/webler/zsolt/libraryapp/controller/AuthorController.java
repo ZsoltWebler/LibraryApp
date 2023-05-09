@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.webler.zsolt.libraryapp.model.Author;
-import org.webler.zsolt.libraryapp.service.LibrarianService;
+import org.webler.zsolt.libraryapp.repository.AuthorRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,16 +16,16 @@ import java.util.Optional;
 public class AuthorController {
 
     @Autowired
-    LibrarianService service;
+    AuthorRepository repository;
 
     @GetMapping
     public List<Author> getAuthors() {
-        return service.getAuthors();
+        return repository.findAll();
     }
 
     @GetMapping("/{id}")
     public Author getAuthorById(@PathVariable Long id) {
-        Optional<Author> authorById = service.getAuthorById(id);
+        Optional<Author> authorById = repository.findById(id);
         if (authorById.isPresent()) {
             return authorById.get();
         }
@@ -35,18 +35,25 @@ public class AuthorController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Author addAuthor(@RequestBody Author author) {
-        service.addAuthor(author);
-        return author;
+        return repository.save(author);
     }
 
     @DeleteMapping("/{id}")
     public void deleteAuthorById(@PathVariable Long id) {
-        service.deleteAuthorById(id);
+        repository.deleteById(id);
     }
 
     @PutMapping("/{id}")
     public Author updateAuthorById(@PathVariable Long id, @RequestBody Author author) {
-        return service.updateById(id, author);
+        Optional<Author> authorById = repository.findById(id);
+        if (authorById.isPresent()) {
+
+            Author persistedAuthor = authorById.get();
+            persistedAuthor.setName(author.getName());
+
+            return repository.save(persistedAuthor);
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
 
