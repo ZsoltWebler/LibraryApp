@@ -23,6 +23,11 @@ public class AuthorController {
         return repository.findAll();
     }
 
+    @GetMapping("/name/{name}")
+    public List<Author> getAuthorsByName(@PathVariable String name) {
+        return repository.findAllAuthorByName(name);
+    }
+
     @GetMapping("/{id}")
     public Author getAuthorById(@PathVariable Long id) {
         Optional<Author> AuthorById = repository.findById(id);

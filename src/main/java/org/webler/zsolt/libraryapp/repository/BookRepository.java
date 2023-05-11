@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface BookRepository extends JpaRepository<Book,Long> {
 
-/*
+
     Optional<Book> findBookByIsbn(String isbn);
 
     List<Book> findBookByTitle(String title);
@@ -24,6 +24,6 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     List<Book> findAllUnAvailableBooks();
 
     List<Book> findBookByAuthorName(String authorName);
- */
+
 
 }

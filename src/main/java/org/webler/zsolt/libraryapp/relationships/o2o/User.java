@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.webler.zsolt.libraryapp.validator.AlphaNumeric;
+import org.webler.zsolt.libraryapp.validator.PhoneNumber;
 
 @Data
 @AllArgsConstructor
@@ -36,6 +37,9 @@ public class User {
 
     @Email
     private String email;
+
+    @PhoneNumber
+    private String phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
