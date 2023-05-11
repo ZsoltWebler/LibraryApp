@@ -25,17 +25,17 @@ public class AuthorController {
 
     @GetMapping("/{id}")
     public Author getAuthorById(@PathVariable Long id) {
-        Optional<Author> authorById = repository.findById(id);
-        if (authorById.isPresent()) {
-            return authorById.get();
+        Optional<Author> AuthorById = repository.findById(id);
+        if (AuthorById.isPresent()) {
+            return AuthorById.get();
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Author addAuthor(@RequestBody Author author) {
-        return repository.save(author);
+    public Author addAuthor(@RequestBody Author Author) {
+        return repository.save(Author);
     }
 
     @DeleteMapping("/{id}")
@@ -44,12 +44,12 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
-    public Author updateAuthorById(@PathVariable Long id, @RequestBody Author author) {
-        Optional<Author> authorById = repository.findById(id);
-        if (authorById.isPresent()) {
+    public Author updateAuthorById(@PathVariable Long id, @RequestBody Author Author) {
+        Optional<Author> AuthorById = repository.findById(id);
+        if (AuthorById.isPresent()) {
 
-            Author persistedAuthor = authorById.get();
-            persistedAuthor.setName(author.getName());
+            Author persistedAuthor = AuthorById.get();
+            persistedAuthor.setName(Author.getName());
 
             return repository.save(persistedAuthor);
         }
