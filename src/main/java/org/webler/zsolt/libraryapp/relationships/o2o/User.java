@@ -19,7 +19,7 @@ public class User {
     private Long id;
 
     @NotNull(message = "Username cannot be null")
-    @Pattern(regexp = "^[a-zA-Z0-9]*$")
+    @AlphaNumeric
     @NotBlank
     private String username;
 
